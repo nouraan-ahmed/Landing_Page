@@ -19,6 +19,7 @@
 */
 let ul = document.getElementById("navbar__list");
 let fragment = document.createDocumentFragment();
+const myElement = document.getElementById("containerdiv");
 /**
  * End Global Variables
  * Start Helper Functions
@@ -26,7 +27,7 @@ let fragment = document.createDocumentFragment();
 */
 
 function navbuilder(){
-    for(let i=1;i<=4;i++){
+    for(let i = 1; i <= myElement.children.length; i++) {
         let li = document.createElement("li");
         li.textContent = 'section' + i;
         fragment.appendChild(li);  
@@ -35,7 +36,6 @@ function navbuilder(){
 }
 
 function RemoveAllActiveClasses(){
-    const myElement = document.getElementById("containerdiv");
     for (let i = 0; i < myElement.children.length; i++) {
         myElement.children[i].classList.remove('your-active-class');
     }
@@ -59,7 +59,7 @@ navbuilder();
 document.addEventListener('scroll', function(e) {
     // determine the y position of the scroll
     lastPosition = window.scrollY;
-    if(lastPosition>=0 && lastPosition<800){
+    if(lastPosition >= 0 && lastPosition<800){
         let element = document.getElementById("section1");
         RemoveAllActiveClasses();
         element.classList.add("your-active-class");
