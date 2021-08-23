@@ -20,6 +20,8 @@
 let ul = document.getElementById("navbar__list");
 let fragment = document.createDocumentFragment();
 const myElement = document.getElementById("containerdiv");
+const myElementchildren = document.querySelectorAll("section");
+
 /**
  * End Global Variables
  * Start Helper Functions
@@ -30,16 +32,43 @@ function navbuilder(){
     for(let i = 1; i <= myElement.children.length; i++) {
         let li = document.createElement("li");
         li.textContent = 'section' + i;
+        li.setAttribute('val','section'+i);
         fragment.appendChild(li);  
     }
     ul.appendChild(fragment);
 }
 
-function RemoveAllActiveClasses(){
-    for (let i = 0; i < myElement.children.length; i++) {
-        myElement.children[i].classList.remove('your-active-class');
+function RemoveAllActiveClasses(myEl){
+    for (let i = 0; i < myEl.children.length; i++) {
+        myEl.children[i].classList.remove('your-active-class');
+        myEl.children[i].classList.remove('active');
     }
 
+}
+
+function scroll(){
+    ul.addEventListener('click',
+    function scroll(evt){
+        window.scrollTo({top:document.getElementById(evt.target.textContent).offsetTop, behavior: "smooth"});
+    });
+}
+
+function getsection(){
+    myElementchildren.forEach((child) => {
+        const section = child.getBoundingClientRect();
+        if (section.top >= 0 && section.top <= 250) {
+        RemoveAllActiveClasses(myElement);
+        child.classList.add("your-active-class");
+        const lis = document.querySelectorAll('li');
+        lis.forEach((el)=>{
+            let val=el.getAttribute('val');
+            if(val===child.id){
+                RemoveAllActiveClasses(ul);
+                el.classList.add("active");
+            }
+        });
+        }
+    });
 }
 
 /**
@@ -56,43 +85,12 @@ navbuilder();
 
 // Add class 'active' to section when near top of viewport
 
-document.addEventListener('scroll', function(e) {
-    // determine the y position of the scroll
-    lastPosition = window.scrollY;
-    if(lastPosition >= 0 && lastPosition<800){
-        let element = document.getElementById("section1");
-        RemoveAllActiveClasses();
-        element.classList.add("your-active-class");
-    }
-    else if(lastPosition>800 && lastPosition<1400){
-        let element = document.getElementById("section2");
-        RemoveAllActiveClasses();
-        element.classList.add("your-active-class");
-    }
-    else if(lastPosition>1400 && lastPosition<2000){
-        let element = document.getElementById("section3");
-        RemoveAllActiveClasses();
-        element.classList.add("your-active-class");
-    }
-    else if(lastPosition>2000){
-        let element = document.getElementById("section4");
-        RemoveAllActiveClasses();
-        element.classList.add("your-active-class");
-    }
-});
+document.addEventListener('scroll', getsection);
 
 
 // Scroll to anchor ID using scrollTO event
 
-ul.addEventListener('click',
-function scroll(evt){
-    console.log(evt.target);
-    let id=evt.target.textContent.replace(/[^0-9]/g,'');
-    let width = document.getElementById(evt.target.textContent).scrollWidth;
-    let height = document.getElementById(evt.target.textContent).scrollHeight;
-    window.scrollTo(width,height*(id-0.4));
-}
-);
+scroll();
 
 
 

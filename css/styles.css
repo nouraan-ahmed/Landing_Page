@@ -18,6 +18,9 @@ body {
     color: #fff;
 }
 
+html{
+    scroll-behavior: smooth;
+}
 
 /* Typeography General*/
 h1 {
@@ -76,6 +79,14 @@ section {
     margin:14px;
     padding: 16px;
     border: 2px solid #eee;
+    cursor: pointer;
+}
+.navbar__menu li.active {
+    display: inline-block;
+    margin:14px;
+    padding: 16px;
+    border: 2px solid rgb(37, 36, 36);
+    background-color: rgb(112, 111, 111);
 }
 
 .navbar__menu .menu__link {
